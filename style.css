@@ -1,10 +1,12 @@
 html, body {
+  background-color: rgb(191, 223, 223);
   margin: 0;
   padding: 0;
 }
 
 canvas {
   display: block;
+  position: fixed;
 }
 
 #Timer {
@@ -15,3 +17,4 @@ canvas {
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
