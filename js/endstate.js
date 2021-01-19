@@ -1,6 +1,6 @@
 //FUNCTIONS TO BE EXECUTED WHEN GAME STATE IS END
 function gamestateend() {
-    if (gamestate === end) {
+    if (gamestate === "end") {
         player.pause();
         gameover.visible = true;
         restart.visible = true;
@@ -22,6 +22,6 @@ function gameend() {
         }
     }
     if (health <= 0) {
-        gamestate = end;
+        gamestate = "end";
     }
 }

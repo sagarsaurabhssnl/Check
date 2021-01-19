@@ -85,7 +85,7 @@ function zombiedown() {
     for (var t = 1; t < 21; t++) {
         if (bulletgroup.isTouching(zg[t])) {
             zg[t].destroyEach();
-            kill = kill + 1;
+            kill += 1;
         }
     }
 }

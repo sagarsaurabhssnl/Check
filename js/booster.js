@@ -1,5 +1,5 @@
 function coinSpawn() {
-    if (frameCount % 500 === 0 && gamestate === play) {
+    if (frameCount % 500 === 0 && gamestate === "play") {
         coin = createSprite(Math.round(random(685, 2049)), Math.round(random(444, 1218)));
         coin.addAnimation("booster", coinimg);
         coin.scale = 0.2;

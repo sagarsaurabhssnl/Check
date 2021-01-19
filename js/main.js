@@ -1,31 +1,34 @@
 //Global variables
-let player, playerimg, playerdie;
+let player, playerimg;
 let bullet, muzzle, bulletimg, firesound, bulletgroup;
 let back;
 let zombie, coinimg, coin;
 let gameover, gameoverimg;
 let zombie1img, zombie2img, zombie3img, zombie4img, zombie5img, zombie6img, zombie7img, zombie8img, zombie9img, zombie10img, zombie11img, zombie12img, zombie13img, zombie14img, zombie15img, zombie16img, zombie17img, zombiegroup;
 let reloadimg, reloadimg1, reloadimg2, reloadimg3, reloadimg4, reloadimg5, reloadimg6, reloadimg7, reloadimg8, reloadimg9, reloadimg10, reloadimg11, reloadimg12, reloadimg13, reloadimg14, reloadimg15, reloadimg16;
-let pimg1, pimg2, pimg3, pimg4, pimg5, pimg6, pimg7;
+let pimg1, pimg2, pimg3, pimg4, pimg5, pimg6, pimg7, peoples;
 let bulletgroupassign = 1;
 let zombiegroupassign = 1;
 let bulletreloadtime = 1;
 let zombiex = [50, 2650];
 let kill = 0;
-var restart;
-play = 1;
-end = 0;
+let restart;
 let people;
 let health = 200;
-let gamestate = play;
+let gamestate = "mainmenu";
 let zg = [], bg = [];
 let zgMyGroup;
 let bgMyGroup;
 let font;
+let score = 0, startImg, start;
+let infoHtml, infoImg;
+
 // //Loading Images
 function preload() {
     // alert("Remove headphones or minimise it's volume");    
     // firesound= loadSound("firesound.mp3");
+    startImg = loadImage("start.png");
+    infoImg = loadImage("i.png");
     font = loadFont("fonts/ShriftSteamy.otf");
     load(font);
     back = loadImage("background.png");
@@ -91,13 +94,21 @@ function preload() {
 }
 //Creating sprites and setting them on the canvas
 function setup() {
-    var gameCanvas = createCanvas(displayWidth, displayHeight - 133);
+    var gameCanvas = createCanvas(displayWidth, displayHeight);
     //CREATING SPRITES AND GROUPS AND ADDING THEIR PROPERTIES
+
     player = createSprite(displayWidth, displayHeight);
     player.addAnimation("myplayer", playerimg);
     player.setCollider("rectangle", 0, 0, 200, 300);
     player.scale = 0.5;
     player.mirrorX(-1);
+    start = createSprite(displayWidth - 500, displayHeight - 300);
+    start.addImage(startImg);
+    start.scale = 0.2;
+    infoHtml = createSprite(displayWidth - 500, displayHeight + 100);
+    infoHtml.addImage(infoImg);
+    infoHtml.scale = 0.3;
+    infoHtml.setCollider("rectangle", 0, 0, 300, 300);
     gameover = createSprite(player.x, player.y);
     gameover.addImage("gameover", gameoverimg);
     gameover.visible = false;
@@ -107,6 +118,7 @@ function setup() {
     restart.scale = 0.5;
     restart.visible = false;
     muzzle = createSprite(player.x + 10, player.y - 13, 100, 10);
+    peoples = new Group();
     bulletgroup = new Group();
     zombiegroup = new Group();
     zgMyGroup = new myGroup(zg, 20);
@@ -115,6 +127,7 @@ function setup() {
 
 //Drawing Elements
 function draw() {
+    // canvas.style.display = "none";
     //SETTING UP THE BACKGROUND
     background(150);
     image(back, 0, 0, displayWidth * 2, displayHeight * 2);
@@ -126,17 +139,20 @@ function draw() {
     muzzle.visible = false;
     muzzleplacement();
     //CALLING FUNCTIONS
+    gamestatemainmenu();
     gamestateplay();
     gamestateend();
     drawSprites();
     fill(0);
-    text("Press C to get the code", player.x - 670, player.y + 300);
-    text("Press R to reload game", player.x - 670, player.y + 280);
-    push();
-    textFont(font, 80);
-    fill("red");
-    text("Kills: " + kill, player.x + 350, player.y - 250);
-    pop();
+    text("Press C to get the code", player.x - 670, player.y + 260);
+    text("Press R to reload game", player.x - 670, player.y + 240);
+    if (gamestate === "play" || gamestate === "end") {
+        push();
+        textFont(font, 80);
+        fill("red");
+        text("Kills: " + kill, player.x + 350, player.y - 300);
+        pop();
+    }
     camera.position.x = player.x;
     camera.position.y = player.y;
 }
@@ -147,7 +163,7 @@ function keyPressed() {
     }
     if (keyCode === 82) {
         window.location.reload(false);
-    } if (gamestate !== end) {
+    } if (gamestate !== "end") {
         if (keyCode === 37) {
             player.mirrorX(-1);
         }
@@ -155,7 +171,7 @@ function keyPressed() {
             player.mirrorX(1);
         }
     }
-    if (gamestate === end && keyCode === 80) {
+    if (gamestate === "end" && keyCode === 80) {
         gamestate = play;
         zombiegroup.destroyEach();
         kill = 0;
@@ -163,13 +179,17 @@ function keyPressed() {
 }
 
 async function load(vari) {
-    await vari;
-    setTimeout(()=>{
+    loader();
+    async function loader() {
+        await vari;
         length += 10;
-    },1);
-    
-    // if (vari === pimg7) {
-    //     loaderCanvas.style.display = "none";
-    //     clearInterval(loader);
-    // }
+    }
+    if (vari === pimg7) {
+        loaderCanvas.style.display = "none";
+        clearInterval(loader);
+    }
+}
+
+function touched() {
+
 }

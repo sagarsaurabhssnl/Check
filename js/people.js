@@ -9,6 +9,7 @@ function peopleSpawn() {
         }
         people.scale = 0.4;
         people.debug = false;
+        
         var peopleImage = Math.round(random(1, 7));
         // people.addAnimation("1people",pimg1);
         switch (peopleImage) {
